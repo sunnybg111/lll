@@ -1,14 +1,28 @@
 pipeline {
-    agent any
-    environment {
-    PATH = "C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\bin;${env.PATH}"
-    stages {
-   
-        stage('Example') {
-            steps { 
-                sh 'mvn clean install'
-            }
-        }
+    agent {
+        node {
+            label 'master'
         }
     }
-}
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+ }
+
+
+
+
